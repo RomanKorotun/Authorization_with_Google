@@ -4,6 +4,7 @@ import {
   googleRedirect,
   login,
   logout,
+  refresh,
   register,
 } from "../../controllers/auth-controller/index.js";
 import { authenticate, isEmptyBody } from "../../middleware/index.js";
@@ -29,6 +30,8 @@ authRouter.post(
   validateBody(userLoginSchema),
   ctrlWrapper(login)
 );
+
+authRouter.get("/refresh", authenticate, ctrlWrapper(refresh));
 
 authRouter.post("/logout", authenticate, ctrlWrapper(logout));
 
