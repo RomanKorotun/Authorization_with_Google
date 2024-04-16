@@ -5,4 +5,4 @@
 
 - `npm install` встановлення базових залежностей проєкту
 - `npm start` старт сервера в режимі production
-- `npm run start:dev` старт сервера в режимі розробки (development)
+- `npm run dev` старт сервера в режимі розробки (development)

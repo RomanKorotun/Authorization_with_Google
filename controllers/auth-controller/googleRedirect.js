@@ -1,6 +1,9 @@
 import axios from "axios";
 import jwt from "jsonwebtoken";
+import bccryptjs from "bcryptjs";
 import User from "../../models/User.js";
+import { nanoid } from "nanoid";
+import "dotenv/config";
 
 const {
   GOOGLE_CLIENT_ID,
@@ -34,19 +37,20 @@ const googleRedirect = async (req, res) => {
   const user = await User.findOne({ email: profile.email });
 
   if (!user) {
-    console.log("hello");
+    const password = await bccryptjs.hash(nanoid(), 10);
     const newUser = await User.create({
       email: profile.email,
       name: profile.name,
-      password: " ",
+      password,
     });
-    console.log(newUser);
     const payload = {
       id: newUser._id,
     };
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_TIME });
     await User.findByIdAndUpdate(newUser._id, { token });
-    res.redirect(`${FRONTEND_URL}/register?token=${token}`);
+    res.redirect(
+      `${FRONTEND_URL}/authorization-with-Google/register?token=${token}`
+    );
     return;
   }
   const payload = {
@@ -54,7 +58,9 @@ const googleRedirect = async (req, res) => {
   };
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_TIME });
   await User.findByIdAndUpdate(user._id, { token });
-  return res.redirect(`${FRONTEND_URL}/register?token=${token}`);
+  return res.redirect(
+    `${FRONTEND_URL}/authorization-with-Google/register?token=${token}`
+  );
 };
 
 export default googleRedirect;
