@@ -15,7 +15,6 @@ const {
 } = process.env;
 
 const googleRedirect = async (req, res) => {
-  console.log("redirect");
   const { code } = req.query;
   const { data } = await axios.post("https://oauth2.googleapis.com/token", {
     client_id: GOOGLE_CLIENT_ID,
@@ -24,7 +23,6 @@ const googleRedirect = async (req, res) => {
     redirect_uri: `${BASE_URL}/api/auth/google-redirect`,
     grant_type: "authorization_code",
   });
-  console.log(data);
 
   const { access_token } = data;
   const { data: profile } = await axios.get(
