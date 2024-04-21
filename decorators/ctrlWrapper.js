@@ -1,9 +1,10 @@
 const ctrlWrapper = (ctrl) => {
-  const func = (req, res, next) => {
+  const func = async (req, res, next) => {
     try {
-      ctrl(req, res, next);
+      ctrl;
+      await ctrl(req, res, next);
     } catch (error) {
-      next();
+      next(error);
     }
   };
   return func;
