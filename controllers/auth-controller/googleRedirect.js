@@ -11,7 +11,7 @@ const {
   BASE_URL,
   JWT_SECRET,
   JWT_TIME,
-  FRONTEND_URL,
+  FRONTEND_URL_GITHUB,
 } = process.env;
 
 const googleRedirect = async (req, res) => {
@@ -47,7 +47,7 @@ const googleRedirect = async (req, res) => {
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_TIME });
     await User.findByIdAndUpdate(newUser._id, { token });
     res.redirect(
-      `${FRONTEND_URL}/authorization-with-Google/register?token=${token}`
+      `${FRONTEND_URL_GITHUB}/authorization-with-Google/register?token=${token}`
     );
     return;
   }
@@ -57,7 +57,7 @@ const googleRedirect = async (req, res) => {
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_TIME });
   await User.findByIdAndUpdate(user._id, { token });
   return res.redirect(
-    `${FRONTEND_URL}/authorization-with-Google/register?token=${token}`
+    `${FRONTEND_URL_GITHUB}/authorization-with-Google/register?token=${token}`
   );
 };
 
